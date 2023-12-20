@@ -14,8 +14,8 @@ export default function login() {
                 <label for="password">Password</label><br />
                 <input type="text" id="password"></input><br />
                 {/*TO DO input will need to be changed to a button for both login and createAccount */}
-                <input type="login" id="login" value="Login"></input><br />
-                <input type="createAccount" id="createAccount" value="Create Account"></input>
+                <button>Login</button><br />
+                <button>Create Account</button>
             </form>
         </div>
     )
