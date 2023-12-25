@@ -13,7 +13,7 @@ import leaderBoardPage from '../pages/leader-board-page/leader-board-page';
 function App() {
   const [count, setCount] = useState(0)
 
-  return (leaderBoardPage()
+  return (mainUserPage()
 
   )
 }

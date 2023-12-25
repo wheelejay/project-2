@@ -17,6 +17,7 @@ defaults.plugins.title.color = "white";
 
 export default function leaderBoardPage() {
 
+    //Functions for Leader board
     const [percentDifferences, setPercentDifferences] = useState({});
     useEffect(() => {
         const firstWeek = weeklyWeightData[0];

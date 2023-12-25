@@ -1,4 +1,18 @@
 import { useState } from "react";
+import weeklyWeightData from "/src/weeklyWeightData.json";
+import { Chart as chartjs, defaults } from "chart.js/auto";
+import { Line } from 'react-chartjs-2';
+import '/src/style.css';
+
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
+
+defaults.plugins.title.display = true;
+defaults.plugins.title.align = "start";
+defaults.plugins.title.font.size = 20;
+defaults.plugins.title.color = "white";
+
+
 
 export default function mainUserPage() {
 
@@ -12,9 +26,28 @@ export default function mainUserPage() {
             <label for="lentry">Last Entry</label><br />
             {/* TO DO input data using the last data point recorded*/}
             <input type="text" id="lentry" value="Last data point entered"></input><br /><br />
-            <label for="pchart">Personal Weight Loss Progress</label><br />
             {/* TO DO create graph that charts the progress of weight loss over time*/}
-            <div></div><br /><br />
+            <div className="progressOverTime">
+                <Line data={{
+                    labels: weeklyWeightData.map((data) => data.week),
+                    datasets: [
+                        {
+                            label: "User1",
+                            data: weeklyWeightData.map((data) => data.user1),
+                            backgroundColor: "blue",
+                            borderColor: "blue",
+                        }
+                    ]
+                }}
+                    options={{
+                        plugins: {
+                            title: {
+                                text: "Personal Weight Loss Progress"
+                            }
+                        }
+                    }}
+                />
+            </div><br /><br />
             <label for="gweight">Goal Weight</label><br />
              {/* TO DO insert goal weight */}
             <input type="text" id="gweight" value="Goal Weight Value"></input><br /><br />
