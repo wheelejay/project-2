@@ -1,0 +1,21 @@
+.leaderBoard {
+    display: flex;
+  }
+  .leaderBoardColumn {
+    flex: 1;
+  }
+  .leaderBoardColumn .header {
+    font-weight: bold;
+    display: block;
+  }
+  ol {
+    padding-left: 0;
+    list-style-type: none;
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
+.progressOverTime {
+    height: 300px;
+    width: 800px;
+}
