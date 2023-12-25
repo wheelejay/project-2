@@ -1,10 +1,14 @@
 import express from 'express';
 import ViteExpress from 'vite-express';
 import bcrypt from 'bcryptjs';
+import { User } from './models/userModel';
+import authRouter from './routes/auth.routes';
+
 
 const app = express();
 app.use(express.json());
-ViteExpress.config({ printViteDevServerHost: true });
+app.use(authRouter);
+
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -22,5 +26,7 @@ app.post('/api/login', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+ViteExpress.config({ printViteDevServerHost: true });
 const port = process.env.PORT || 8080;
 ViteExpress.listen(app, port, () => console.log(`Server is listening on http://localhost:${port}`));

@@ -9,9 +9,9 @@ import util from 'util';
 import connectToDB from '../config/db.js';
 let db;
 (async () => {
-  db = await connectToDB('postgresql:///code-notes');
+  db = await connectToDB('postgresql:///users');
 })();
-export class User extends Model {
+export default class User extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
@@ -34,6 +34,22 @@ export const initializeUserModel = async () => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      fName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      sWeight: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      gWeight: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      }
     },
     {
       modelName: 'user',
@@ -44,4 +60,5 @@ export const initializeUserModel = async () => {
 
   await db.sync();
 };
-export const getDB = () => db;
+export { User };
+// export const getDB = () => db;
