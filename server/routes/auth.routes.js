@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User } from "../models/userModel";
+import { User } from "../models/userModel.js";
 const authRouter = Router();
 authRouter.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;

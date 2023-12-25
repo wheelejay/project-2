@@ -6,18 +6,16 @@
 
 import { DataTypes, Model } from 'sequelize';
 import util from 'util';
-import connectToDB from '../config/db.js';
-let db;
-(async () => {
-  db = await connectToDB('postgresql:///users');
-})();
-export default class User extends Model {
+import db from '../config/db.js';
+
+
+export class User extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-export const initializeUserModel = async () => {
+
   User.init(
     {
       id: {
@@ -56,9 +54,5 @@ export const initializeUserModel = async () => {
       sequelize: db,
     },
   );
-  
 
-  await db.sync();
-};
-export { User };
-// export const getDB = () => db;
+

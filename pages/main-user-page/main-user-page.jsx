@@ -26,7 +26,6 @@ export default function mainUserPage() {
             <label for="lentry">Last Entry</label><br />
             {/* TO DO input data using the last data point recorded*/}
             <input type="text" id="lentry" value="Last data point entered"></input><br /><br />
-            {/* TO DO create graph that charts the progress of weight loss over time*/}
             <div className="progressOverTime">
                 <Line data={{
                     labels: weeklyWeightData.map((data) => data.week),
@@ -49,12 +48,12 @@ export default function mainUserPage() {
                 />
             </div><br /><br />
             <label for="gweight">Goal Weight</label><br />
-             {/* TO DO insert goal weight */}
+            {/* TO DO insert goal weight */}
             <input type="text" id="gweight" value="Goal Weight Value"></input><br /><br />
-             {/* TO DO button will take user to leaderboard page*/}
+            {/* TO DO button will take user to leaderboard page*/}
             <button>Leader Board</button>{"          "}
             <label for="timeleft">Time left in Competition</label>
-             {/* TO DO count down timer for the time left in the competition*/}
+            {/* TO DO count down timer for the time left in the competition*/}
             <input type="text" id="timeleft" value="DAYS:HOURS:MIN:SEC"></input><br /><br />
 
         </div>
