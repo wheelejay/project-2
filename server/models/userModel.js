@@ -55,4 +55,10 @@ export class User extends Model {
     },
   );
 
-
+  db.sync()
+  .then(() => {
+    console.log('Database synchronized');
+  })
+  .catch((error) => {
+    console.error('Error synchronizing database:', error);
+  });

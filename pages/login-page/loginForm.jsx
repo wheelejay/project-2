@@ -15,7 +15,7 @@ export default function Login() {
       console.error('Login failed:', error);
       // Handle error case
     }
-  };
+ };
   const handleCreateAccount = () => {
     // Redirect to create account page or handle account creation
   };
