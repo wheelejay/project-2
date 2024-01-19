@@ -9,25 +9,24 @@ import Login from '../pages/login-page/loginForm.jsx'
 import MainUserPage from '../pages/main-user-page/main-user-page.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="*" element={<App />}>
+    <Route path="/" element={<App />}>
       {/* Login Page */}
       <Route
-        path="loginPage"
+        path="/loginPage"
         element={< Login />}
       />
-      {/*Create User Page */}
-      <Route
-        path="createUserPage"
+      {/*Create User Page */}      <Route
+        path="/createUserPage"
         element={< CreateUser />}
       />
       {/*Main User Page */}
       <Route
-        path="mainUser"
+        path="/mainUser"
         element={< MainUserPage />}
       />
       {/*Leader Board Page */}
       <Route
-        path="leaderBoard"
+        path="/leaderBoard"
         element={< LeaderBoardPage />}
       />
     </Route>,

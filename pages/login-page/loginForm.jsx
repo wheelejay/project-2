@@ -1,8 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import React from 'react'
+
+
 
 
 export default function Login() {
+  const navigate = useNavigate();
+  const navigateToCreateUserPage = () => { navigate("/createUserPage"); };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async (e) => {
@@ -10,15 +16,14 @@ export default function Login() {
     try {
       const response = await axios.post('/api/login', { email, password });
       console.log(response.data);
-      
+
     } catch (error) {
       console.error('Login failed:', error);
       // Handle error case
     }
- };
-  const handleCreateAccount = () => {
-
   };
+
+
   return (
     <div>
       <h1>Fitness Chasers</h1>
@@ -29,8 +34,9 @@ export default function Login() {
         <label htmlFor="password">Password</label><br />
         <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} /><br /><br />
         <button type="submit">Login</button><br />
-        <button type="button" onClick={handleCreateAccount}>Create Account</button>
       </form>
+      <button onClick={navigateToCreateUserPage}>Create Account</button>
     </div>
+
   );
 };
