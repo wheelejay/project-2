@@ -14,7 +14,7 @@ defaults.plugins.title.color = "white";
 
 
 
-export default function mainUserPage() {
+export default function MainUserPage() {
 
     return (
         <div>

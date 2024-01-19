@@ -17,7 +17,7 @@ export default function Login() {
     }
  };
   const handleCreateAccount = () => {
-    // Redirect to create account page or handle account creation
+
   };
   return (
     <div>

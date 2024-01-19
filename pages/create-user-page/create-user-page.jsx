@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function createUser() {
+export default function CreateUser() {
 
     return (
 <div>

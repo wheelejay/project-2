@@ -15,7 +15,7 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "white";
 
 
-export default function leaderBoardPage() {
+export default function LeaderBoardPage() {
 
     //Functions for Leader board
     const [percentDifferences, setPercentDifferences] = useState({});
