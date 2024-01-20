@@ -12,10 +12,11 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* Login Page */}
       <Route
-        path="/loginPage"
+        index
         element={< Login />}
       />
-      {/*Create User Page */}      <Route
+      {/*Create User Page */}     
+       <Route
         path="/createUserPage"
         element={< CreateUser />}
       />

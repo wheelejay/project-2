@@ -9,7 +9,9 @@ import LeaderBoardPage from '../pages/leader-board-page/leader-board-page';
 import { NavLink, Outlet, Routes, Route } from 'react-router-dom';
 function App() {
   const [count, setCount] = useState(0);
-  return ( Login())
+  return (
+    <Outlet/>
+   )
 };
 
 export default App;
