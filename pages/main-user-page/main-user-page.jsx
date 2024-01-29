@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import weeklyWeightData from "/src/weeklyWeightData.json";
 import { Chart as chartjs, defaults } from "chart.js/auto";
 import { Line } from 'react-chartjs-2';
@@ -12,14 +14,32 @@ defaults.plugins.title.align = "start";
 defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "white";
 
-
-
 export default function MainUserPage() {
+    const [user, setUser] = useState({});
+    const { userId } = useParams();
+
+    const userIsEmpty = Object.keys(user).length === 0;
+
+    useEffect(() => {
+        const loadAsync = async () => {
+            const {data: { user }} = await axios.get(`/api/users/${userId}`);
+            setUser(user);
+        }
+        if(userIsEmpty) {
+            loadAsync()
+        }
+    }, [userId, userIsEmpty])
+
+    if(userIsEmpty) {
+        return (
+            <div>loading...</div>
+        )
+    }
 
     return (
         <div>
             {/* TO DO create custom greeting with users first name*/}
-            <h1>Hello, First Name</h1>
+            <h1>Hello, {user.fName}</h1>
             {/* TO DO API for inspirational Fitness Quote*/}
             <h2>Inspirational Fitness Quote</h2>
             <button>Add New Submission</button><br /><br />
@@ -49,7 +69,7 @@ export default function MainUserPage() {
             </div><br /><br />
             <label for="gweight">Goal Weight</label><br />
             {/* TO DO insert goal weight */}
-            <input type="text" id="gweight" value="Goal Weight Value"></input><br /><br />
+            <input type="text" id="gweight" value={user.gWeight}></input><br /><br />
             {/* TO DO button will take user to leaderboard page*/}
             <button>Leader Board</button>{"          "}
             <label for="timeleft">Time left in Competition</label>
