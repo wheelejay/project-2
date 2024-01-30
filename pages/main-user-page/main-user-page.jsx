@@ -5,6 +5,9 @@ import weeklyWeightData from "/src/weeklyWeightData.json";
 import { Chart as chartjs, defaults } from "chart.js/auto";
 import { Line } from 'react-chartjs-2';
 import '/src/style.css';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
+
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
@@ -17,20 +20,25 @@ defaults.plugins.title.color = "white";
 export default function MainUserPage() {
     const [user, setUser] = useState({});
     const { userId } = useParams();
-
+    const [date, setDate] = useState(new Date());
+    const [entryWeightValue, setEntryWeightValue] = useState('');
+    const handleUpdateUserWeight = async (event, { date, entryWeight }) => {
+        event.preventDefault();
+        //post route to userWeight data table
+    }
     const userIsEmpty = Object.keys(user).length === 0;
 
     useEffect(() => {
         const loadAsync = async () => {
-            const {data: { user }} = await axios.get(`/api/users/${userId}`);
+            const { data: { user } } = await axios.get(`/api/users/${userId}`);
             setUser(user);
         }
-        if(userIsEmpty) {
+        if (userIsEmpty) {
             loadAsync()
         }
     }, [userId, userIsEmpty])
 
-    if(userIsEmpty) {
+    if (userIsEmpty) {
         return (
             <div>loading...</div>
         )
@@ -42,10 +50,21 @@ export default function MainUserPage() {
             <h1>Hello, {user.fName}</h1>
             {/* TO DO API for inspirational Fitness Quote*/}
             <h2>Inspirational Fitness Quote</h2>
-            <button>Add New Submission</button><br /><br />
-            <label for="lentry">Last Entry</label><br />
-            {/* TO DO input data using the last data point recorded*/}
-            <input type="text" id="lentry" value="Last data point entered"></input><br /><br />
+            <form onSubmit={(e) => handleUpdateUserWeight(e, {date: dateValue, entryWeight: entryWeightValue})}>
+                <h3>New Submission</h3>
+               Enter Date<br /> 
+               <DatePicker selected={date} onChange={(date) => setDate(date)} /><br />
+                <label for="weightEntry">Enter Weight</label><br />
+                {/* TO DO input data using the last data point recorded*/}
+                <input
+                    type="text"
+                    id="weightEntry"
+                    name="weightEntry"
+                    value={entryWeightValue}
+                    onChange={(e) => setEntryWeightValue(e.target.value)}>
+                    </input><br />
+                    <button type="submit">Submit New Entry</button>
+            </form><br /><br />
             <div className="progressOverTime">
                 <Line data={{
                     labels: weeklyWeightData.map((data) => data.week),
@@ -71,10 +90,7 @@ export default function MainUserPage() {
             {/* TO DO insert goal weight */}
             <input type="text" id="gweight" value={user.gWeight}></input><br /><br />
             {/* TO DO button will take user to leaderboard page*/}
-            <button>Leader Board</button>{"          "}
-            <label for="timeleft">Time left in Competition</label>
-            {/* TO DO count down timer for the time left in the competition*/}
-            <input type="text" id="timeleft" value="DAYS:HOURS:MIN:SEC"></input><br /><br />
+            <button>Edit Personal Info</button>{"          "}
 
         </div>
     )

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { User } from "../models/userModel.js";
+import axios from "axios";
 const authRouter = Router();
 authRouter.post('/api/auth', async (req, res) => {
   const { email, password } = req.body;
