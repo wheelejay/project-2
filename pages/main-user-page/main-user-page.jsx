@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
 
+
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
@@ -21,10 +22,16 @@ export default function MainUserPage() {
     const [user, setUser] = useState({});
     const { userId } = useParams();
     const [date, setDate] = useState(new Date());
-    const [entryWeightValue, setEntryWeightValue] = useState('');
-    const handleUpdateUserWeight = async (event, { date, entryWeight }) => {
+    const [weightValue, setWeightValue] = useState('');
+    const handleUpdateUserWeight = async (event) => {
         event.preventDefault();
-        //post route to userWeight data table
+            const res = await axios.post(`/api/users/${userId}/weights`, {
+                date: date,
+                weight: weightValue
+            });
+            console.log(res);
+           
+        
     }
     const userIsEmpty = Object.keys(user).length === 0;
 
@@ -50,20 +57,20 @@ export default function MainUserPage() {
             <h1>Hello, {user.fName}</h1>
             {/* TO DO API for inspirational Fitness Quote*/}
             <h2>Inspirational Fitness Quote</h2>
-            <form onSubmit={(e) => handleUpdateUserWeight(e, {date: dateValue, entryWeight: entryWeightValue})}>
+            <form onSubmit={handleUpdateUserWeight}>
                 <h3>New Submission</h3>
-               Enter Date<br /> 
-               <DatePicker selected={date} onChange={(date) => setDate(date)} /><br />
-                <label for="weightEntry">Enter Weight</label><br />
+                Enter Date<br />
+                <DatePicker selected={date} onChange={(date) => setDate(date)} /><br />
+                <label for="weight">Enter Weight</label><br />
                 {/* TO DO input data using the last data point recorded*/}
                 <input
                     type="text"
-                    id="weightEntry"
-                    name="weightEntry"
-                    value={entryWeightValue}
-                    onChange={(e) => setEntryWeightValue(e.target.value)}>
-                    </input><br />
-                    <button type="submit">Submit New Entry</button>
+                    id="weight"
+                    name="weight"
+                    value={weightValue}
+                    onChange={(e) => setWeightValue(e.target.value)}>
+                </input><br />
+                <button type="submit">Submit New Entry</button>
             </form><br /><br />
             <div className="progressOverTime">
                 <Line data={{
