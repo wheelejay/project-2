@@ -15,8 +15,8 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/login', { email, password });
-      console.log(response.data);
+      const {data: { user }} = await axios.post('/api/login', { email, password });
+      navigate(`/mainUser/${user.id}`)
 
     } catch (error) {
       console.error('Login failed:', error);

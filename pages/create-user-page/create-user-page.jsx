@@ -14,6 +14,7 @@ export default function CreateUser() {
     const handleCreateUser = async(event, {fname, lname, email, password, sweight, gweight }) =>{
         event.preventDefault();
         const res = await axios.post('/api/users', {fname: fname, lname: lname, email: email, password: password, sweight: sweight, gweight: gweight });
+        console.log(res);
         if (res.data){
             navigate("/")
         }

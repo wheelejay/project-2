@@ -23,7 +23,7 @@ app.post('/api/login', async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).send('Invalid credentials');
     }
-    res.send('Login successful!');
+    res.send({ user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

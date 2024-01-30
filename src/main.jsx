@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       />
       {/*Main User Page */}
       <Route
-        path="/mainUser"
+        path="/mainUser/:userId"
         element={< MainUserPage />}
       />
       {/*Leader Board Page */}
