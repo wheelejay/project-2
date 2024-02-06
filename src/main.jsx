@@ -4,9 +4,9 @@ import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createRoutesFromElements, createBrowserRouter } from 'react-router-dom'
 import CreateUser from '../pages/create-user-page/create-user-page.jsx'
-import LeaderBoardPage from '../pages/leader-board-page/leader-board-page.jsx'
 import Login from '../pages/login-page/loginForm.jsx'
 import MainUserPage from '../pages/main-user-page/main-user-page.jsx'
+import AdminPage from '../pages/admin-page/admin-page.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -25,10 +25,10 @@ const router = createBrowserRouter(
         path="/mainUser/:userId"
         element={< MainUserPage />}
       />
-      {/*Leader Board Page */}
+      {/*Admin Page */}
       <Route
-        path="/leaderBoard"
-        element={< LeaderBoardPage />}
+        path="/mainUser/:userId/adminPage"
+        element={< AdminPage />}
       />
     </Route>,
   ),

@@ -23,8 +23,7 @@ export default function CreateUser() {
     return (
         <div>
             <h1>Hello,</h1>
-            {/* TO DO API for inspirational Fitness Quote*/}
-            <h2>Inspirational Fitness Quote</h2>
+
             <form onSubmit={(e) => handleCreateUser(e, { fname: fnameValue, lname: lnameValue, email: emailValue, password: passwordValue, sweight: sweightValue, gweight: gweightValue })}>
                 <label htmlFor="fname">First Name</label>
                 <input

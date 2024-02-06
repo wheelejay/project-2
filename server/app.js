@@ -29,6 +29,34 @@ app.post('/api/login', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+//PATCH request to edit user data
+app.patch('/api/users/:id', async (req, res) => {
+  const { id } = req.params; 
+  const updateOps = req.body; 
+  try {
+    const user = await User.findByPk(id); 
+    if (!user) {
+      return res.status(404).send('User not found'); 
+    }
+
+    const allowedUpdates = ['fName', 'lName', 'email', 'gWeight']; 
+    const isValidOperation = Object.keys(updateOps).every((update) =>
+      allowedUpdates.includes(update)
+    );
+    if (!isValidOperation) {
+      return res.status(400).send({ error: 'Invalid updates!' });
+    }
+  
+    Object.keys(updateOps).forEach((key) => {
+      user[key] = updateOps[key];
+    });
+    await user.save(); 
+    res.send({ user, message: 'User updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 ViteExpress.config({ printViteDevServerHost: true });
 const port = process.env.PORT || 8080;

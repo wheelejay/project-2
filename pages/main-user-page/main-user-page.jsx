@@ -7,18 +7,24 @@ import { Line } from 'react-chartjs-2';
 import '/src/style.css';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from "react-router-dom";
+
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 defaults.plugins.title.display = true;
 defaults.plugins.title.align = "start";
 defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "white";
+
 export default function MainUserPage() {
     const [user, setUser] = useState({});
     const [weights, setWeights] = useState([]);
     const { userId } = useParams();
     const [startDate, setStartDate] = useState(new Date());
     const [weightValue, setWeightValue] = useState('');
+    const [goalWeight, setGoalWeight] = useState('');
+    const navigate = useNavigate();
+
     useEffect(() => {
         const loadUserAndWeights = async () => {
             try {
@@ -27,9 +33,14 @@ export default function MainUserPage() {
                     axios.get(`/api/users/${userId}/weights`)
                 ]);
                 setUser(userResponse.data.user);
-                setWeights(weightsResponse.data.weights);
-                if(weightsResponse.data.weights.length > 0){
-                    setWeightValue(weightsResponse.data.weights.slice(-1)[0].weight);
+                setGoalWeight(userResponse.data.user.gWeight);
+                if (weightsResponse.data && Array.isArray(weightsResponse.data.weights)) {
+                    setWeights(weightsResponse.data.weights);
+                    if(weightsResponse.data.weights.length > 0){
+                        setWeightValue(weightsResponse.data.weights.slice(-1)[0].weight);
+                    }
+                } else {
+                    console.log('Weights data is undefined or not an array.');
                 }
             } catch (error) {
                 console.error('Error loading user or weights:', error);
@@ -37,11 +48,13 @@ export default function MainUserPage() {
         };
         loadUserAndWeights();
     }, [userId]);
+    
     const handleUpdateUserWeight = async (e) => {
         e.preventDefault();
         const res = await axios.post(`/api/users/${userId}/weights`, {weight: weightValue, recordDate: startDate.toISOString()});
         console.log(res)
     };
+
     return (
         <div>
             <h1>Hello, {user.fName}</h1>
@@ -81,9 +94,16 @@ export default function MainUserPage() {
                 }}
                 />
             </div><br /><br />
-            <label htmlFor="gweight">Goal Weight</label><br />
-            <input type="text" id="gweight" value={user.gWeight}></input><br /><br />
-            <button>Edit Personal Info</button>{" "}
+    <label htmlFor="gweight">Goal Weight</label><br />
+    <input
+        type="text"
+        id="gweight"
+        name="gWeight"
+        value={goalWeight}
+        readOnly={true}
+    /><br /><br />
+<br /><br />
+<button onClick={() => navigate(`/mainUser/${userId}/adminPage/`)}>Edit Personal Info</button>
         </div>
     );
 }
