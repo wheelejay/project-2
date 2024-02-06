@@ -58,6 +58,23 @@ app.patch('/api/users/:id', async (req, res) => {
   }
 });
 
+//DELETE request to delete user
+app.delete('/api/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    
+    await user.destroy();
+    res.send({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 ViteExpress.config({ printViteDevServerHost: true });
 const port = process.env.PORT || 8080;
 ViteExpress.listen(app, port, () => console.log(`Server is listening on http://localhost:${port}`));

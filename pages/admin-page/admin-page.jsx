@@ -29,6 +29,18 @@ const AdminPage = () => {
 
   };
   const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const url = `/api/users/${userId}`;
+    try {
+      await axios.delete(url);
+      alert('User deleted successfully');
+      navigate('/');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   return (
     <div>
       <h1>Edit User</h1>
@@ -77,6 +89,8 @@ const AdminPage = () => {
       </form>
       <br></br>
       <button onClick={() => navigate(`/mainUser/${userId}`)}>Return to Main Page</button>
+      <br></br><br></br><br></br><br></br>
+      <button onClick={handleDelete}>Delete User</button>
     </div>
   );
 };
