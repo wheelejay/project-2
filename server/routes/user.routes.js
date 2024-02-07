@@ -14,9 +14,9 @@ userRouter.post('/api/users', async (req, res) => {
 })
 
 userRouter.post('/api/users/:userId/weights', async (req, res) => {
-    const { date, weight } = req.body;
+    const { recordDate, weight } = req.body;
     const newWeight = await UserWeight.create({
-        date,
+        recordDate,
         weight,
         userId: req.params.userId 
     });

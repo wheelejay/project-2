@@ -62,7 +62,7 @@ export default function MainUserPage() {
             <form onSubmit={handleUpdateUserWeight}>
                 <h3>New Submission</h3>
                 Enter Date<br />
-                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /><br />
+                <DatePicker selected={startDate} onChange={(recordDate) => setStartDate(recordDate)} /><br />
                 <label htmlFor="weight">Enter Weight</label><br />
                 <input
                     type="text"
