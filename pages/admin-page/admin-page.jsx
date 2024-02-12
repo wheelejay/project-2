@@ -31,16 +31,20 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
-    const url = `/api/users/${userId}`;
+    if (!window.confirm("Are you sure you want to delete this user?")) {
+      return;
+    }
     try {
-      await axios.delete(url);
-      alert('User deleted successfully');
+
+      const userWeightsResponse = await axios.delete(`/api/user_weights/${userId}`);
+      const response = await axios.delete(`/api/users/${userId}`);
+      alert('User deleted successfully.');
       navigate('/');
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error(error.response ? error.response.data : error.message);
+      alert('Failed to delete the user.');
     }
   };
-
   return (
     <div>
       <h1>Edit User</h1>

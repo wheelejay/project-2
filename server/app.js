@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { User } from './models/userModel.js';
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
+import { UserWeight } from './models/userWeightModel.js';
 
 const app = express();
 
@@ -69,6 +70,21 @@ app.delete('/api/users/:id', async (req, res) => {
     
     await user.destroy();
     res.send({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.delete('/api/user_weights/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const deleteUserWeights = await UserWeight.destroy({ where: { userId } });
+    if (deleteUserWeights) {
+      res.send({ message: 'User weights deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'User weights not found' });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import weeklyWeightData from "/src/weeklyWeightData.json";
 import { Chart as chartjs, defaults } from "chart.js/auto";
 import { Line } from 'react-chartjs-2';
 import '/src/style.css';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from "react-router-dom";
+import 'moment';
+import 'chartjs-adapter-moment';
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
@@ -24,37 +25,52 @@ export default function MainUserPage() {
     const [weightValue, setWeightValue] = useState('');
     const [goalWeight, setGoalWeight] = useState('');
     const navigate = useNavigate();
+    const [chartData, setChartData] = useState([]);
+    const chartRef = useRef(null);
 
     useEffect(() => {
-        const loadUserAndWeights = async () => {
+        let isSubscribed = true;
+        let intervalId;
+        async function fetchData() {
             try {
                 const [userResponse, weightsResponse] = await Promise.all([
                     axios.get(`/api/users/${userId}`),
                     axios.get(`/api/users/${userId}/weights`)
                 ]);
-                setUser(userResponse.data.user);
-                setGoalWeight(userResponse.data.user.gWeight);
-                if (weightsResponse.data && Array.isArray(weightsResponse.data.weights)) {
-                    setWeights(weightsResponse.data.weights);
-                    if(weightsResponse.data.weights.length > 0){
-                        setWeightValue(weightsResponse.data.weights.slice(-1)[0].weight);
+                if (isSubscribed) {
+                    const chartInstance = chartRef.current;
+                    if (chartInstance && chartInstance.chart) {
+                        chartInstance.chart.destroy(); 
                     }
-                } else {
-                    console.log('Weights data is undefined or not an array.');
+                    setUser(userResponse.data.user);
+                    setGoalWeight(userResponse.data.user.gWeight);
+                    
+                    if (weightsResponse.data && Array.isArray(weightsResponse.data.weights)) {
+                        const sortedWeights = weightsResponse.data.weights.sort((a, b) => new Date(a.recordDate) - new Date(b.recordDate));
+                        setWeights(sortedWeights);
+                        setChartData(sortedWeights);
+                    } else {
+                        console.log('Weights data is undefined or not an array.');
+                    }
                 }
             } catch (error) {
                 console.error('Error loading user or weights:', error);
             }
+        }
+        intervalId = setInterval(fetchData, 3000);
+        return () => {
+            isSubscribed = false;
+            const chartInstance = chartRef.current;
+            if (chartInstance && chartInstance.chart) {
+                chartInstance.chart.destroy(); 
+            }
         };
-        loadUserAndWeights();
     }, [userId]);
-    
     const handleUpdateUserWeight = async (e) => {
         e.preventDefault();
         const res = await axios.post(`/api/users/${userId}/weights`, {weight: weightValue, recordDate: startDate.toISOString()});
         console.log(res)
     };
-
     return (
         <div>
             <h1>Hello, {user.fName}</h1>
@@ -74,25 +90,43 @@ export default function MainUserPage() {
                 <button type="submit">Submit New Entry</button>
             </form><br /><br />
             <div className="progressOverTime">
-                <Line data={{
-                    labels: weeklyWeightData.map((data) => data.week),
-                    datasets: [
-                        {
-                            label: "User1",
-                            data: weeklyWeightData.map((data) => data.user1),
-                            backgroundColor: "blue",
-                            borderColor: "blue",
-                        }
-                    ]
-                }}
-                options={{
-                    plugins: {
-                        title: {
-                            text: "Personal Weight Loss Progress"
-                        }
-                    }
-                }}
-                />
+                <Line
+                ref={chartRef}
+                data={{
+    labels: chartData.map((items) => 
+        new Date(items.recordDate).toLocaleDateString('en-CA')
+    ),
+    datasets: [
+        {
+            label: user.fName,
+            data: chartData.map((items) => items.weight),
+            backgroundColor: "blue",
+            borderColor: "blue",
+        }
+    ]
+}}
+options={{
+    scales: {
+        x: {
+            type: 'time',
+            time: {
+                unit: 'day',
+                displayFormats: {
+                    day: 'MMM DD, YY'
+                }
+            },
+        }
+    },
+    plugins: {
+        title: {
+            text: "Personal Weight Loss Progress"
+        },
+        legend: {
+            position: 'bottom'
+        },
+    },
+}}
+/>
             </div><br /><br />
     <label htmlFor="gweight">Goal Weight</label><br />
     <input
