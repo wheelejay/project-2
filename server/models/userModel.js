@@ -41,7 +41,10 @@ export class User extends Model {
       gWeight: {
         type: DataTypes.STRING,
         allowNull: false,
-      }
+      },
+      sWeightTimestamp: {
+        type: DataTypes.DATE,
+      },
     },
     {
       modelName: 'user',

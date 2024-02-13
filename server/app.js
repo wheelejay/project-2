@@ -30,17 +30,18 @@ app.post('/api/login', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 //PATCH request to edit user data
 app.patch('/api/users/:id', async (req, res) => {
-  const { id } = req.params; 
-  const updateOps = req.body; 
+  const { id } = req.params;
+  let updateOps = req.body;
   try {
-    const user = await User.findByPk(id); 
+    const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).send('User not found'); 
+      return res.status(404).send('User not found');
     }
-
-    const allowedUpdates = ['fName', 'lName', 'email', 'gWeight']; 
+    
+    const allowedUpdates = ['fName', 'lName', 'email', 'gWeight', 'password'];
     const isValidOperation = Object.keys(updateOps).every((update) =>
       allowedUpdates.includes(update)
     );
@@ -48,10 +49,18 @@ app.patch('/api/users/:id', async (req, res) => {
       return res.status(400).send({ error: 'Invalid updates!' });
     }
   
+    if (updateOps.gWeight) {
+      updateOps['gWeightTimestamp'] = new Date().toISOString();
+    }
+    
+    if (updateOps.password) {
+      const hashedPassword = await bcrypt.hash(updateOps.password, 8);
+      updateOps.password = hashedPassword;
+    }
     Object.keys(updateOps).forEach((key) => {
       user[key] = updateOps[key];
     });
-    await user.save(); 
+    await user.save();
     res.send({ user, message: 'User updated successfully' });
   } catch (error) {
     console.error(error);
@@ -85,6 +94,22 @@ app.delete('/api/user_weights/:userId', async (req, res) => {
     } else {
       res.status(404).send({ message: 'User weights not found' });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+//Delete last Weight entry
+app.delete('/api/user_weights/:userId/:weightId', async (req, res) => {
+  const { userId, weightId } = req.params;
+  try {
+    const weight = await UserWeight.findOne({ where: { id: weightId, userId } });
+    if (!weight) {
+      return res.status(404).send({ message: 'Weight entry not found' });
+    }
+    await weight.destroy();
+    res.send({ message: 'Weight entry deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
