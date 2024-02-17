@@ -89,8 +89,7 @@ const AdminPage = () => {
         <button
           onClick={handleUpdateFName}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Update First Name
+        >Update First Name
         </button>
 
         {/* Last Name */}
@@ -105,8 +104,7 @@ const AdminPage = () => {
         <button
           onClick={handleUpdateLName}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Update Last Name
+        >Update Last Name
         </button>
         {/* Email */}
         <input
@@ -120,8 +118,7 @@ const AdminPage = () => {
         <button
           onClick={handleUpdateEmail}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Update Email
+        >Update Email
         </button>
         {/* Goal Weight */}
         <input
@@ -135,8 +132,7 @@ const AdminPage = () => {
         <button
           onClick={handleUpdateGWeight}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Update Goal Weight
+        >Update Goal Weight
         </button>
         {/* Password */}
         <input
@@ -150,19 +146,20 @@ const AdminPage = () => {
         <button
           onClick={handleUpdatePassword}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Update Password
+        >Update Password
         </button>
         <div></div>
 
       </div>
+      {/* Delete User */}
       <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-  Delete User
-</button>
-<button onClick={() => navigate(`/mainUser/${userId}`)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-  Return to Main Page
-</button>
-</div>
-); 
+        Delete User
+      </button>
+      {/* Return to Main Page */}
+      <button onClick={() => navigate(`/mainUser/${userId}`)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Return to Main Page
+      </button>
+    </div>
+  );
 };
 export default AdminPage;

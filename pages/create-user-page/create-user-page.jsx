@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 export default function CreateUser() {
     const [fnameValue, setFnameValue] = useState('');
     const [lnameValue, setLnameValue] = useState('');
@@ -9,6 +10,7 @@ export default function CreateUser() {
     const [sweightValue, setSweightValue] = useState('');
     const [gweightValue, setGweightValue] = useState('');
     const navigate = useNavigate();
+    //Validation
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -16,6 +18,7 @@ export default function CreateUser() {
     const validatePassword = (password) => {
         return password.length >= 6;
     };
+    //After Validation the post request will create user
     const handleCreateUser = async (event) => {
         event.preventDefault();
         if (!validateEmail(emailValue)) {
@@ -34,7 +37,7 @@ export default function CreateUser() {
                 password: passwordValue,
                 sweight: sweightValue,
                 gweight: gweightValue,
-                gweightTimestamp: new Date().toISOString()
+                sWeightTimestamp: new Date().toISOString()
             });
             if (res.data) {
                 navigate("/");
@@ -43,13 +46,15 @@ export default function CreateUser() {
             console.error("There was an error creating the user:", error);
         }
     };
+
     return (
         <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <h1 className="mb-8 text-3xl text-center">Sign up</h1>
                     <form onSubmit={handleCreateUser}>
-                        <input 
+                        {/*First Name*/}
+                        <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="fname"
@@ -57,7 +62,8 @@ export default function CreateUser() {
                             value={fnameValue}
                             onChange={(e) => setFnameValue(e.target.value)}
                         />
-                        <input 
+                        {/*Last Name*/}
+                        <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="lname"
@@ -65,7 +71,8 @@ export default function CreateUser() {
                             value={lnameValue}
                             onChange={(e) => setLnameValue(e.target.value)}
                         /><br></br>
-                        <input 
+                        {/*Email*/}
+                        <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="email"
@@ -73,7 +80,8 @@ export default function CreateUser() {
                             value={emailValue}
                             onChange={(e) => setEmailValue(e.target.value)}
                         />
-                        <input 
+                        {/*Password*/}
+                        <input
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
@@ -81,7 +89,8 @@ export default function CreateUser() {
                             value={passwordValue}
                             onChange={(e) => setPasswordValue(e.target.value)}
                         /><br></br>
-                        <input 
+                        {/*Start Weight */}
+                        <input
                             type="number"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="sweight"
@@ -89,7 +98,8 @@ export default function CreateUser() {
                             value={sweightValue}
                             onChange={(e) => setSweightValue(e.target.value)}
                         />
-                        <input 
+                        {/*Goal Weight*/}
+                        <input
                             type="number"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="gweight"
@@ -103,8 +113,9 @@ export default function CreateUser() {
                         >Create Account</button>
                     </form>
                 </div><br></br>
+                {/*Login redirect*/}
                 <div className="text-grey-dark mt-6">
-                    Already have an account? 
+                    Already have an account?
                     <a className="no-underline border-b border-blue text-blue" href="../">
                         Log in
                     </a>

@@ -100,7 +100,7 @@ app.delete('/api/user_weights/:userId', async (req, res) => {
   }
 });
 
-//Delete last Weight entry
+//DElETE request to delete last Weight entry 
 app.delete('/api/user_weights/:userId/:weightId', async (req, res) => {
   const { userId, weightId } = req.params;
   try {

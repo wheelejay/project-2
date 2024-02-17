@@ -8,8 +8,9 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from "react-router-dom";
 import 'moment';
-import 'chartjs-adapter-moment';
+import "chartjs-adapter-moment"
 
+//Chart settings
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 defaults.plugins.title.display = true;
@@ -63,6 +64,7 @@ export default function MainUserPage() {
                 }
             }
         }
+        //Chart data popluation and refreshing
         fetchData();
         const intervalId = setInterval(fetchData, 3000);
         return () => {
@@ -132,7 +134,7 @@ export default function MainUserPage() {
             <h1 className="text-xl font-bold text-gray-800">Hello, {user.fName}</h1>
             <form onSubmit={handleUpdateUserWeight} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <h3 className="block text-gray-700 text-sm font-bold mb-2">New Submission</h3>
-                {/* DatePicker remains unstyled by Tailwind as instructed */}
+                {/* DatePicker calander */}
                 Enter Date<br />
                 <DatePicker
                     selected={startDate}
@@ -151,6 +153,7 @@ export default function MainUserPage() {
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit New Entry</button><br></br>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleDeleteLastWeight}>Delete Previous Weight Entry</button>
             </form><br /><br />
+            {/*Weight chart*/}
             <div className="progressOverTime w-full">
                 <Line
                     ref={chartRef}
@@ -192,6 +195,7 @@ export default function MainUserPage() {
                     }}
                 />
             </div><br /><br />
+            {/*Display the Goal Weight*/}
             <label htmlFor="gweight" className="block text-gray-700 text-sm font-bold mb-2">Goal Weight</label><br />
             <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -201,13 +205,15 @@ export default function MainUserPage() {
                 value={goalWeight}
                 readOnly={true}
             /><br /><br />
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => navigate(`/mainUser/${userId}/adminPage/`)}>Edit Personal Info</button><br></br><br></br>
+            {/*Edit user info button*/}
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => navigate(`/mainUser/${userId}/adminPage/`)}
+            >Edit Personal Info</button><br></br><br></br>
+            {/*Logout Button*/}
             <button
-  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-  onClick={() => navigate('/')} 
->
-  Log Out
-</button>
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={() => navigate('/')}
+            >Log Out
+            </button>
         </div>
     );
 }
