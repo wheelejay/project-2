@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+
 const AdminPage = () => {
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -76,7 +77,6 @@ const AdminPage = () => {
     <div className="container max-w-full md:max-w-md mx-auto pt-10">
       <h1 className="text-3xl text-center mb-10">Edit User</h1>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'center' }}>
-        {/* Input and button elements here */}
         {/* First Name */}
         <input
           type="text"
@@ -163,6 +163,6 @@ const AdminPage = () => {
   Return to Main Page
 </button>
 </div>
-); // Close the return statement properly here without extra divs
+); 
 };
 export default AdminPage;
