@@ -41,9 +41,9 @@ export default function MainUserPage() {
                     setUser(userResponse.data.user);
                     setGoalWeight(userResponse.data.user.gWeight);
                     const sWeightDate = userResponse.data.user.sWeightTimestamp
-                    ? new Date(userResponse.data.user.sWeightTimestamp)
-                    : new Date();
-                setSWeightTimestamp(sWeightDate);
+                        ? new Date(userResponse.data.user.sWeightTimestamp)
+                        : new Date();
+                    setSWeightTimestamp(sWeightDate);
                     if (weightsResponse.data && Array.isArray(weightsResponse.data.weights)) {
                         const sortedWeights = weightsResponse.data.weights.sort((a, b) => new Date(a.recordDate) - new Date(b.recordDate));
                         const chartWeights = [
@@ -59,7 +59,7 @@ export default function MainUserPage() {
             } catch (error) {
                 console.error('Error loading user or weights:', error);
                 if (isSubscribed) {
-                  alert('Error loading user or weights.');
+                    alert('Error loading user or weights.');
                 }
             }
         }
@@ -112,44 +112,46 @@ export default function MainUserPage() {
     const handleDeleteLastWeight = async () => {
         const confirmDelete = window.confirm('Are you sure you want to delete the latest weight entry?');
         if (confirmDelete) {
-          try {
-            const lastWeightId = weights.length > 0 ? weights[weights.length - 1].id : null;
-            if (lastWeightId) {
-              const res = await axios.delete(`/api/user_weights/${userId}/${lastWeightId}`);
-              console.log(res);
-              fetchData();
-            } else {
-              console.log('No weight entries to delete.');
-              alert('No weight entries to delete.');
+            try {
+                const lastWeightId = weights.length > 0 ? weights[weights.length - 1].id : null;
+                if (lastWeightId) {
+                    const res = await axios.delete(`/api/user_weights/${userId}/${lastWeightId}`);
+                    console.log(res);
+                    fetchData();
+                } else {
+                    console.log('No weight entries to delete.');
+                    alert('No weight entries to delete.');
+                }
+            } catch (error) {
+                console.error('Error deleting weight entry:', error);
             }
-          } catch (error) {
-            console.error('Error deleting weight entry:', error);
-          }
         }
-      };
+    };
     return (
-        <div>
-            <h1>Hello, {user.fName}</h1>
-            <form onSubmit={handleUpdateUserWeight}>
-                <h3>New Submission</h3>
+        <div className="container mx-auto px-4">
+            <h1 className="text-xl font-bold text-gray-800">Hello, {user.fName}</h1>
+            <form onSubmit={handleUpdateUserWeight} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h3 className="block text-gray-700 text-sm font-bold mb-2">New Submission</h3>
+                {/* DatePicker remains unstyled by Tailwind as instructed */}
                 Enter Date<br />
                 <DatePicker
                     selected={startDate}
                     onChange={handleDateChange}
                     minDate={sWeightTimestamp}
                 /><br />
-                <label htmlFor="weight">Enter Weight</label><br />
+                <label htmlFor="weight" className="block text-gray-700 text-sm font-bold mb-2">Enter Weight</label><br />
                 <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                     id="weight"
                     name="weight"
                     value={weightValue}
                     onChange={(e) => setWeightValue(e.target.value)}>
                 </input><br />
-                <button type="submit">Submit New Entry</button><br></br>
-                <button type="button" onClick={handleDeleteLastWeight}>Delete Previous Weight Entry</button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit New Entry</button><br></br>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleDeleteLastWeight}>Delete Previous Weight Entry</button>
             </form><br /><br />
-            <div className="progressOverTime">
+            <div className="progressOverTime w-full">
                 <Line
                     ref={chartRef}
                     data={{
@@ -166,6 +168,8 @@ export default function MainUserPage() {
                         ]
                     }}
                     options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             x: {
                                 type: 'time',
@@ -188,16 +192,22 @@ export default function MainUserPage() {
                     }}
                 />
             </div><br /><br />
-            <label htmlFor="gweight">Goal Weight</label><br />
+            <label htmlFor="gweight" className="block text-gray-700 text-sm font-bold mb-2">Goal Weight</label><br />
             <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 id="gweight"
                 name="gWeight"
                 value={goalWeight}
                 readOnly={true}
             /><br /><br />
-            <br /><br />
-            <button onClick={() => navigate(`/mainUser/${userId}/adminPage/`)}>Edit Personal Info</button>
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => navigate(`/mainUser/${userId}/adminPage/`)}>Edit Personal Info</button><br></br><br></br>
+            <button
+  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+  onClick={() => navigate('/')} 
+>
+  Log Out
+</button>
         </div>
     );
 }

@@ -44,59 +44,72 @@ export default function CreateUser() {
         }
     };
     return (
-        <div>
-            <h1>Create User</h1>
-            <form onSubmit={handleCreateUser}>
-                <label htmlFor="fname">First Name</label>
-                <input
-                    type="text"
-                    id="fname"
-                    name="fname"
-                    value={fnameValue}
-                    onChange={(e) => setFnameValue(e.target.value)}
-                />
-                <label htmlFor="lname">Last Name</label>
-                <input
-                    type="text"
-                    id="lname"
-                    name="lname"
-                    value={lnameValue}
-                    onChange={(e) => setLnameValue(e.target.value)}
-                />
-                <label htmlFor="email">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    value={emailValue}
-                    onChange={(e) => setEmailValue(e.target.value)}
-                />
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password" 
-                    id="password"
-                    name="password"
-                    value={passwordValue}
-                    onChange={(e) => setPasswordValue(e.target.value)}
-                />
-                <label htmlFor="sweight">Starting Weight</label>
-                <input
-                    type="number" 
-                    id="sweight"
-                    name="sweight"
-                    value={sweightValue}
-                    onChange={(e) => setSweightValue(e.target.value)}
-                />
-                <label htmlFor="gweight">Goal Weight</label>
-                <input
-                    type="number" 
-                    id="gweight"
-                    name="gweight"
-                    value={gweightValue}
-                    onChange={(e) => setGweightValue(e.target.value)}
-                />
-                <button type="submit">Create Account</button>
-            </form>
+        <div className="bg-grey-lighter min-h-screen flex flex-col">
+            <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                    <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <form onSubmit={handleCreateUser}>
+                        <input 
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="fname"
+                            placeholder="First Name"
+                            value={fnameValue}
+                            onChange={(e) => setFnameValue(e.target.value)}
+                        />
+                        <input 
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="lname"
+                            placeholder="Last Name"
+                            value={lnameValue}
+                            onChange={(e) => setLnameValue(e.target.value)}
+                        /><br></br>
+                        <input 
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="email"
+                            placeholder="Email"
+                            value={emailValue}
+                            onChange={(e) => setEmailValue(e.target.value)}
+                        />
+                        <input 
+                            type="password"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="password"
+                            placeholder="Password"
+                            value={passwordValue}
+                            onChange={(e) => setPasswordValue(e.target.value)}
+                        /><br></br>
+                        <input 
+                            type="number"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="sweight"
+                            placeholder="Starting Weight"
+                            value={sweightValue}
+                            onChange={(e) => setSweightValue(e.target.value)}
+                        />
+                        <input 
+                            type="number"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="gweight"
+                            placeholder="Goal Weight"
+                            value={gweightValue}
+                            onChange={(e) => setGweightValue(e.target.value)}
+                        /><br></br>
+                        <button
+                            type="submit"
+                            className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1"
+                        >Create Account</button>
+                    </form>
+                </div><br></br>
+                <div className="text-grey-dark mt-6">
+                    Already have an account? 
+                    <a className="no-underline border-b border-blue text-blue" href="../">
+                        Log in
+                    </a>
+                </div>
+            </div>
         </div>
     );
 }

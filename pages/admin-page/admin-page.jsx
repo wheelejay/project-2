@@ -25,10 +25,10 @@ const AdminPage = () => {
       alert("Please create a password at least 6 characters long.");
       return;
     }
-    
+
     const url = `/api/users/${userId}`;
     console.log(`Data to send: ${field}: ${value}`);
-    
+
     try {
       const response = await axios.patch(url, { [field]: value });
       console.log(response.data);
@@ -73,76 +73,96 @@ const AdminPage = () => {
     }
   };
   return (
-    <div>
-      <h1>Edit User</h1>
-      <form onSubmit={handleUpdateFName}>
-        <div>
-          <label htmlFor="fName">First Name:</label>
-          <input
-            type="text"
-            id="fName"
-            name="fName"
-            value={fName}
-            onChange={(e) => setFName(e.target.value)}
-          />
-          <button type="submit">Update First Name</button>
-        </div>
-      </form>
-      <form onSubmit={handleUpdateLName}>
-        <div>
-          <label htmlFor="lName">Last Name:</label>
-          <input
-            type="text"
-            id="lName"
-            name="lName"
-            value={lName}
-            onChange={(e) => setLName(e.target.value)}
-          />
-          <button type="submit">Update Last Name</button>
-        </div>
-      </form>
-      <form onSubmit={handleUpdateEmail}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit">Update Email</button>
-        </div>
-      </form>
-      <form onSubmit={handleUpdateGWeight}>
-        <div>
-          <label htmlFor="gWeight">Goal Weight:</label>
-          <input
-            type="number"
-            id="gWeight"
-            name="gWeight"
-            value={gWeight}
-            onChange={(e) => setGWeight(e.target.value)}
-          />
-          <button type="submit">Update Goal Weight</button>
-        </div>
-      </form>
-      <form onSubmit={handleUpdatePassword}>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">Update Password</button>
-        </div>
-      </form>
-      <button onClick={handleDelete}>Delete User</button>
-      <button onClick={() => navigate(`/mainUser/${userId}`)}>Return to Main Page</button>
-    </div>
-  );
+    <div className="container max-w-full md:max-w-md mx-auto pt-10">
+      <h1 className="text-3xl text-center mb-10">Edit User</h1>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'center' }}>
+        {/* Input and button elements here */}
+        {/* First Name */}
+        <input
+          type="text"
+          className="border border-grey-light w-full p-3 rounded mb-4"
+          name="fname"
+          placeholder="First Name"
+          value={fName}
+          onChange={(e) => setFName(e.target.value)}
+        />
+        <button
+          onClick={handleUpdateFName}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update First Name
+        </button>
+
+        {/* Last Name */}
+        <input
+          type="text"
+          className="border border-grey-light w-full p-3 rounded mb-4"
+          name="lname"
+          placeholder="Last Name"
+          value={lName}
+          onChange={(e) => setLName(e.target.value)}
+        />
+        <button
+          onClick={handleUpdateLName}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update Last Name
+        </button>
+        {/* Email */}
+        <input
+          type="text"
+          className="border border-grey-light w-full p-3 rounded mb-4"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button
+          onClick={handleUpdateEmail}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update Email
+        </button>
+        {/* Goal Weight */}
+        <input
+          type="number"
+          className="border border-grey-light w-full p-3 rounded mb-4"
+          name="gweight"
+          placeholder="Goal Weight"
+          value={gWeight}
+          onChange={(e) => setGWeight(e.target.value)}
+        />
+        <button
+          onClick={handleUpdateGWeight}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update Goal Weight
+        </button>
+        {/* Password */}
+        <input
+          type="password"
+          className="border border-grey-light w-full p-3 rounded mb-4"
+          name="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          onClick={handleUpdatePassword}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update Password
+        </button>
+        <div></div>
+
+      </div>
+      <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+  Delete User
+</button>
+<button onClick={() => navigate(`/mainUser/${userId}`)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+  Return to Main Page
+</button>
+</div>
+); // Close the return statement properly here without extra divs
 };
 export default AdminPage;
